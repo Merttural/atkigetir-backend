@@ -17,9 +17,15 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 // Security Middleware
 securityMiddleware.forEach(middleware => app.use(middleware));
 
-// CORS Configuration - Development için spesifik ayar
+// CORS Configuration - Development ve Production için
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: [
+    'http://localhost:3000', 
+    'http://127.0.0.1:3000',
+    'https://www.atkigetir.com',
+    'https://atkigetir.com',
+    'https://atkigetir-frontend.onrender.com'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
