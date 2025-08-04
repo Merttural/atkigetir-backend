@@ -1,0 +1,17 @@
+[
+    {
+      "name": "Kırmızı Taraftar Atkısı",
+      "description": "Kaliteli yün ile üretilmiş kırmızı atkı.",
+      "price": 149.99,
+      "imageUrl": "/images/atki1.jpg",
+      "category": "Atkı"
+    },
+    {
+      "name": "Mavi Bere",
+      "description": "Soğuk kış günleri için ideal bere.",
+      "price": 99.99,
+      "imageUrl": "/images/bere1.jpg",
+      "category": "Bere"
+    }
+  ]
+  

@@ -1,0 +1,66 @@
+{
+  "name": "atkigetir-backend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "build": "echo 'No build step required for Node.js'",
+    "import": "node import.js",
+    "lint": "eslint src/",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "security": "npm audit",
+    "security:fix": "npm audit fix"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^4.18.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.2.1",
+    "helmet": "^7.1.0",
+    "hpp": "^0.2.3",
+    "iyzipay": "^2.0.64",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.16.4",
+    "morgan": "^1.10.1",
+    "multer": "^2.0.2",
+    "xss-clean": "^0.1.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.3",
+    "supertest": "^6.3.4"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "description": "Atkigetir Backend - Express.js API Server",
+  "main": "src/server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Merttural/atki.git"
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "api",
+    "backend",
+    "ecommerce",
+    "atkigetir"
+  ],
+  "author": "Atkigetir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Merttural/atki/issues"
+  },
+  "homepage": "https://github.com/Merttural/atki#readme"
+}
