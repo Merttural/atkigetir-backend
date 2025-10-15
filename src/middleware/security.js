@@ -313,11 +313,11 @@ const securityMiddleware = [
   createRateLimit(15 * 60 * 1000, 100), // 15 dakikada 100 istek
 ];
 
-// API rate limiting (daha sıkı)
-const apiRateLimit = createRateLimit(15 * 60 * 1000, 50); // 15 dakikada 50 istek
+// API rate limiting (development için artırıldı)
+const apiRateLimit = createRateLimit(15 * 60 * 1000, 500); // 15 dakikada 500 istek (development)
 
-// Auth rate limiting (çok sıkı)
-const authRateLimit = createRateLimit(15 * 60 * 1000, 10); // 15 dakikada 10 istek
+// Auth rate limiting (development için artırıldı)
+const authRateLimit = createRateLimit(15 * 60 * 1000, 1000); // 15 dakikada 1000 istek (development)
 
 module.exports = {
   securityMiddleware,
