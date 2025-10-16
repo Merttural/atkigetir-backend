@@ -27,7 +27,13 @@ router.post('/', upload.single('file'), (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: 'Dosya yüklenemedi!' });
     }
-    const imageUrl = '/uploads/products/' + req.file.filename;
+    
+    // Production'da tam URL, development'ta relative path
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? process.env.FRONTEND_URL || 'https://atkigetir-backend.onrender.com'
+      : `http://localhost:${process.env.PORT || 5000}`;
+    
+    const imageUrl = `${baseUrl}/uploads/products/${req.file.filename}`;
     res.status(200).json({ imageUrl });
   } catch (error) {
     res.status(500).json({ error: error.message || 'Yükleme hatası!' });
