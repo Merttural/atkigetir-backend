@@ -2,7 +2,12 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://atkigetir:3L8HT0nFdtnnlCLA@merhaba.edbr8tz.mongodb.net/?retryWrites=true&w=majority&appName=merhaba';
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  console.error('❌ MONGODB_URI environment variable is required');
+  process.exit(1);
+}
 
 const ProductSchema = new mongoose.Schema({
   name: { type: String, required: true },

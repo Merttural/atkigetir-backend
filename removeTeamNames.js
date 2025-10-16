@@ -2,7 +2,12 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 // MongoDB bağlantısı
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://atkigetir:3L8HT0nFdtnnlCLA@merhaba.edbr8tz.mongodb.net/?retryWrites=true&w=majority&appName=merhaba';
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  console.error('❌ MONGODB_URI environment variable is required');
+  process.exit(1);
+}
 
 // Product şeması
 const productSchema = new mongoose.Schema({
