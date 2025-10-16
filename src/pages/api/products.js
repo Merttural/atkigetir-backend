@@ -28,6 +28,27 @@ router.get('/', validateSearch, sanitizeInput, async (req, res) => {
     } else {
       products = await Product.find({});
     }
+    
+    // Dynamic URL system - her istekte doğru URL'yi döndür
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://atkigetir-backend.onrender.com'
+      : `http://localhost:${process.env.PORT || 5000}`;
+    
+    // Image URL'lerini düzelt
+    products = products.map(product => {
+      if (product.image) {
+        // Eğer relative path ise, base URL ekle
+        if (product.image.startsWith('/uploads/')) {
+          product.image = `${baseUrl}${product.image}`;
+        }
+        // Eğer farklı bir base URL varsa, doğru URL ile değiştir
+        else if (product.image.includes('/uploads/products/')) {
+          product.image = product.image.replace(/https?:\/\/[^\/]+/, baseUrl);
+        }
+      }
+      return product;
+    });
+    
     return res.status(200).json({ products });
   } catch (error) {
     res.status(500).json({ error: 'Sunucu hatası' });
