@@ -34,6 +34,9 @@ router.get('/', validateSearch, sanitizeInput, async (req, res) => {
       ? 'https://atkigetir-backend.onrender.com'
       : `http://localhost:${process.env.PORT || 5000}`;
     
+    console.log('NODE_ENV:', process.env.NODE_ENV);
+    console.log('Base URL:', baseUrl);
+    
     // Image URL'lerini düzelt
     products = products.map(product => {
       if (product.image) {
