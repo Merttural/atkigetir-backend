@@ -116,9 +116,9 @@ temp/
 ehthumbs.db
 Thumbs.db
 
-# Uploads directory (if you want to ignore uploaded files)
-uploads/
-public/uploads/
+# Uploads directory - Commented out to include in Git for production
+# uploads/
+# public/uploads/
 
 # Database files
 *.db
