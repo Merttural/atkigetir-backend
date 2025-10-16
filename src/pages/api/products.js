@@ -30,11 +30,15 @@ router.get('/', validateSearch, sanitizeInput, async (req, res) => {
     }
     
     // Dynamic URL system - her istekte doğru URL'yi döndür
-    const baseUrl = process.env.NODE_ENV === 'production' 
+    // Render'da her zaman production URL kullan
+    const baseUrl = req.headers.host && req.headers.host.includes('render.com')
       ? 'https://atkigetir-backend.onrender.com'
-      : `http://localhost:${process.env.PORT || 5000}`;
+      : process.env.NODE_ENV === 'production' 
+        ? 'https://atkigetir-backend.onrender.com'
+        : `http://localhost:${process.env.PORT || 5000}`;
     
     console.log('NODE_ENV:', process.env.NODE_ENV);
+    console.log('Host:', req.headers.host);
     console.log('Base URL:', baseUrl);
     
     // Image URL'lerini düzelt
