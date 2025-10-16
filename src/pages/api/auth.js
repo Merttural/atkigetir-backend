@@ -51,12 +51,15 @@ router.post('/register', sanitizeInput, validateUser, async (req, res) => {
 // Giriş
 router.post('/login', sanitizeInput, validateLogin, async (req, res) => {
   try {
+    console.log('🔐 Login attempt:', { email: req.body.email, timestamp: new Date().toISOString() });
     await dbConnect();
     const { email, password } = req.body;
     
     // Kullanıcıyı bul
     const user = await User.findOne({ email });
+    console.log('👤 User found:', user ? { email: user.email, role: user.role, isActive: user.isActive } : 'Not found');
     if (!user) {
+      console.log('❌ User not found for email:', email);
       return res.status(400).json({ 
         error: 'E-posta veya şifre hatalı' 
       });
@@ -71,7 +74,9 @@ router.post('/login', sanitizeInput, validateLogin, async (req, res) => {
     
     // Şifre kontrolü
     const isValidPassword = await user.comparePassword(password);
+    console.log('🔑 Password check result:', isValidPassword);
     if (!isValidPassword) {
+      console.log('❌ Invalid password for email:', email);
       return res.status(400).json({ 
         error: 'E-posta veya şifre hatalı' 
       });
@@ -89,15 +94,16 @@ router.post('/login', sanitizeInput, validateLogin, async (req, res) => {
       { expiresIn: '7d' }
     );
     
+    console.log('✅ Login successful for user:', { email: user.email, role: user.role });
     return res.status(200).json({ 
       message: 'Giriş başarılı', 
       user: {
         id: user._id,
-        name: user.name, 
-        email: user.email, 
-        role: user.role 
-      }, 
-      token 
+        name: user.name,
+        email: user.email,
+        role: user.role
+      },
+      token
     });
   } catch (error) {
     console.error('Login error:', error);
