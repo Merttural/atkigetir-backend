@@ -63,13 +63,18 @@ app.use(express.urlencoded({
 // Trust proxy (for rate limiting behind reverse proxy)
 app.set('trust proxy', 1);
 
-// Static files with caching
+// Static files with caching and CORS headers
 const staticOptions = {
   maxAge: NODE_ENV === 'production' ? '1y' : '0',
   etag: true,
   lastModified: true,
   setHeaders: (res, path) => {
-    if (path.endsWith('.jpg') || path.endsWith('.png') || path.endsWith('.gif')) {
+    // CORS headers for static files
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    
+    if (path.endsWith('.jpg') || path.endsWith('.png') || path.endsWith('.gif') || path.endsWith('.webp')) {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     }
   }
