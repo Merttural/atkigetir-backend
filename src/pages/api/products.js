@@ -66,23 +66,43 @@ router.get('/', validateSearch, sanitizeInput, async (req, res) => {
 router.post('/', sanitizeInput, async (req, res) => {
   try {
     await dbConnect();
-    const { name, price, image, category, stock, description, details, seoTitle, seoDescription, features, slug } = req.body;
+    const { name, price, image, additionalImages, category, stock, stockStatus, description, details, seoTitle, seoDescription, features, slug, active } = req.body;
+    
+    // Gerekli alanları kontrol et
+    if (!name || !price || !category || !stockStatus) {
+      return res.status(400).json({ error: 'Gerekli alanlar eksik' });
+    }
+    
+    // Stok durumu "var" ise stok miktarı gerekli
+    if (stockStatus === 'var' && (!stock || stock <= 0)) {
+      return res.status(400).json({ error: 'Stok durumu "Var" seçildiğinde stok miktarı gerekli' });
+    }
+    
     const newProduct = await Product.create({
       name,
-      price,
-      image,
+      price: parseFloat(price),
+      image: image || '',
+      additionalImages: additionalImages || [],
       category,
-      stock,
-      description,
-      details,
-      seoTitle,
-      seoDescription,
-      features,
-      slug
+      stock: stockStatus === 'var' ? parseInt(stock) : 0,
+      stockStatus: stockStatus || 'var',
+      description: description || '',
+      details: details || '',
+      seoTitle: seoTitle || '',
+      seoDescription: seoDescription || '',
+      features: features || [],
+      slug: slug || name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''),
+      active: active !== false
     });
-    return res.status(201).json({ product: newProduct });
+    
+    return res.status(201).json({ 
+      success: true, 
+      product: newProduct,
+      message: 'Ürün başarıyla eklendi'
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Sunucu hatası' });
+    console.error('Product creation error:', error);
+    res.status(500).json({ error: error.message || 'Sunucu hatası' });
   }
 });
 

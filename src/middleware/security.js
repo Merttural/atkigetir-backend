@@ -14,7 +14,7 @@ const sanitizeInput = (req, res, next) => {
         req.body[key] = req.body[key]
           .replace(/[<>]/g, '') // HTML tag'lerini kaldır
           .replace(/javascript:/gi, '') // JavaScript protokolünü kaldır
-          .replace(/on\w+=/gi, '') // Event handler'ları kaldır
+          .replace(/onw+=/gi, '') // Event handler'ları kaldır
           .replace(/script/gi, '') // Script tag'lerini kaldır
           .replace(/iframe/gi, '') // Iframe tag'lerini kaldır
           .replace(/object/gi, '') // Object tag'lerini kaldır
@@ -97,7 +97,7 @@ const sanitizeInput = (req, res, next) => {
         req.query[key] = req.query[key]
           .replace(/[<>]/g, '')
           .replace(/javascript:/gi, '')
-          .replace(/on\w+=/gi, '')
+          .replace(/onw+=/gi, '')
           .replace(/script/gi, '')
           .replace(/iframe/gi, '')
           .replace(/object/gi, '')
@@ -180,7 +180,7 @@ const sanitizeInput = (req, res, next) => {
         req.params[key] = req.params[key]
           .replace(/[<>]/g, '')
           .replace(/javascript:/gi, '')
-          .replace(/on\w+=/gi, '')
+          .replace(/onw+=/gi, '')
           .replace(/script/gi, '')
           .replace(/iframe/gi, '')
           .replace(/object/gi, '')
@@ -313,11 +313,11 @@ const securityMiddleware = [
   createRateLimit(15 * 60 * 1000, 100), // 15 dakikada 100 istek
 ];
 
-// API rate limiting (development için artırıldı)
-const apiRateLimit = createRateLimit(15 * 60 * 1000, 500); // 15 dakikada 500 istek (development)
+// API rate limiting (development için çok artırıldı)
+const apiRateLimit = createRateLimit(15 * 60 * 1000, 10000); // 15 dakikada 10000 istek (development)
 
-// Auth rate limiting (development için artırıldı)
-const authRateLimit = createRateLimit(15 * 60 * 1000, 1000); // 15 dakikada 1000 istek (development)
+// Auth rate limiting (development için çok artırıldı)
+const authRateLimit = createRateLimit(15 * 60 * 1000, 20000); // 15 dakikada 20000 istek (development)
 
 module.exports = {
   securityMiddleware,
