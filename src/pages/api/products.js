@@ -118,7 +118,50 @@ router.delete('/', sanitizeInput, async (req, res) => {
   }
 });
 
-// PUT: Tüm alanları güncelle
+// PUT: Tüm alanları güncelle (/:id endpoint'i)
+router.put('/:id', sanitizeInput, async (req, res) => {
+  try {
+    await dbConnect();
+    const { id } = req.params;
+    const { name, price, image, additionalImages, category, stock, stockStatus, description, details, seoTitle, seoDescription, features, slug, active } = req.body;
+    
+    const updated = await Product.findByIdAndUpdate(
+      id,
+      { 
+        name, 
+        price: parseFloat(price), 
+        image, 
+        additionalImages: additionalImages || [],
+        category, 
+        stock: stockStatus === 'var' ? parseInt(stock) : 0,
+        stockStatus: stockStatus || 'var',
+        description, 
+        details, 
+        seoTitle, 
+        seoDescription, 
+        features: features || [],
+        slug,
+        active: active !== false
+      },
+      { new: true }
+    );
+    
+    if (!updated) {
+      return res.status(404).json({ error: 'Ürün bulunamadı' });
+    }
+    
+    return res.status(200).json({ 
+      success: true,
+      product: updated,
+      message: 'Ürün başarıyla güncellendi'
+    });
+  } catch (error) {
+    console.error('Product update error:', error);
+    return res.status(400).json({ error: error.message });
+  }
+});
+
+// PUT: Tüm alanları güncelle (eski endpoint - geriye uyumluluk için)
 router.put('/', sanitizeInput, async (req, res) => {
   try {
     await dbConnect();
